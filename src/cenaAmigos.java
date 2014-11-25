@@ -10,6 +10,7 @@ public class cenaAmigos {
 			System.out.print("\nIntroduce el numero de recetas que quieres introducir: \n");
 			numre = sc.nextInt();
 			ArrayList<Receta> recetas = new ArrayList<Receta>();
+			ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 
 			for (int i = 0; i < numre; i++) {
 				Receta receta = new Receta();
@@ -20,7 +21,7 @@ public class cenaAmigos {
 				//fw.write(nomre + " ; ");
 				System.out.print("Introduce el numero de ingredientes: \n");
 				numin = sca.nextInt();
-				ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+				//ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 
 				for (int j = 0; j < numin; j++) {
 					Ingrediente ing = new Ingrediente();
@@ -33,13 +34,19 @@ public class cenaAmigos {
 					System.out.print("Introduce la cantidad de " + nomin + ": \n");
 					cant = sca.nextInt();
 
-					if (ug == "u") {
-						ing.setEnGramos(true);
-						ing.setCantidadUnidad(cant);
-						//fw.write(cant + " unidades #");
-					 } else if (ug == "g") {
+					if (ug.equalsIgnoreCase("u")) {
 						ing.setEnGramos(false);
+						ing.setCantidadUnidad(cant);
+						ing.setCantidadGramos(-1);
+						System.out.println(ing.getEnGramos());
+						System.out.println(ing.getCantidadUnidad());
+						//fw.write(cant + " unidades #");
+					 } else if (ug.equalsIgnoreCase("g")) {
+						ing.setEnGramos(true);
 						ing.setCantidadGramos(cant);
+						ing.setCantidadUnidad(-1);
+						System.out.println(ing.getEnGramos());
+						System.out.println(ing.getCantidadGramos());
 						//fw.write(cant + " gramos #");				
 					}
 
@@ -54,15 +61,27 @@ public class cenaAmigos {
 				recetas.add(receta);
 
 			} 
-			File archivo = new File("/home/zubiri/AriketakJava/AzterketaZuzenduta/src/recetas.txt");
-			FileWriter fw = new FileWriter(archivo);
-			for (int k = 0; k < recetas.size(); k++) {
-				Receta recetaes = recetas.get(k);
-				for (int l = 0; l < ingredientes.size(); l++) {
-				//for (int l = 0; l < recetaes.getIngredientes().size(); l++) {
-
-					
+			try {
+				File archivo = new File("./recetas.txt");
+				FileWriter fw = new FileWriter(archivo, true);
+				for (int k = 0; k < recetas.size(); k++) {
+					//Receta recetas = recetas.get(k);
+					ingredientes = recetas.get(k).getIngredientes();
+					fw.write(recetas.get(k).getNombreReceta() + ";");
+					for (int l = 0; l < ingredientes.size(); l++) {
+						Ingrediente ing = new Ingrediente();
+						//if (ing.getEnGramos()) {
+							fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadGramos() + " gramos*" + ingredientes.get(l).getCantidadUnidad() + " unidades #");
+							//fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadGramos() + " gramos #");
+						// } else if (!ing.getEnGramos()) {
+							//fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadUnidad() + " unidades #");
+						//}
+					}
+					fw.write(";" + recetas.get(k).getPreparacion() + "\n");
 				}
+				fw.close();
+			 } catch (IOException ioe) {
+				System.out.println("Error E/S: "+ioe);
 			}
 
 			//fw.write("..." + "\n");
