@@ -1,0 +1,3 @@
+aa;asd*-1 gramos*1 unidades #;asdf
+aa;qwe*0 gramos*0 unidades #;de
+manzana_asada;manzana*-1 gramos*2 unidades #azucar*200 gramos*-1 unidades #agua*-1 gramos*1 unidades #;asar

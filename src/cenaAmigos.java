@@ -38,15 +38,15 @@ public class cenaAmigos {
 						ing.setEnGramos(false);
 						ing.setCantidadUnidad(cant);
 						ing.setCantidadGramos(-1);
-						System.out.println(ing.getEnGramos());
-						System.out.println(ing.getCantidadUnidad());
+						//System.out.println(ing.getEnGramos());
+						//System.out.println(ing.getCantidadUnidad());
 						//fw.write(cant + " unidades #");
 					 } else if (ug.equalsIgnoreCase("g")) {
 						ing.setEnGramos(true);
 						ing.setCantidadGramos(cant);
 						ing.setCantidadUnidad(-1);
-						System.out.println(ing.getEnGramos());
-						System.out.println(ing.getCantidadGramos());
+						//System.out.println(ing.getEnGramos());
+						//System.out.println(ing.getCantidadGramos());
 						//fw.write(cant + " gramos #");				
 					}
 
@@ -69,9 +69,9 @@ public class cenaAmigos {
 					ingredientes = recetas.get(k).getIngredientes();
 					fw.write(recetas.get(k).getNombreReceta() + ";");
 					for (int l = 0; l < ingredientes.size(); l++) {
-						Ingrediente ing = new Ingrediente();
+						//Ingrediente ing = new Ingrediente();
 						//if (ing.getEnGramos()) {
-							fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadGramos() + " gramos*" + ingredientes.get(l).getCantidadUnidad() + " unidades #");
+							fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadGramos() + /*" gramos*"*/"*" + ingredientes.get(l).getCantidadUnidad() + /*" unidades #"*/"#");
 							//fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadGramos() + " gramos #");
 						// } else if (!ing.getEnGramos()) {
 							//fw.write(ingredientes.get(l).getNombreIngrediente() + "*" + ingredientes.get(l).getCantidadUnidad() + " unidades #");
@@ -90,5 +90,42 @@ public class cenaAmigos {
 		//	System.out.println("Error E/S: "+ioe);
 		
 		//}
+		try {
+			File listaRecetas2 = new File("./recetas.txt");
+			FileInputStream fis = new FileInputStream(listaRecetas2);
+	        InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+	        BufferedReader br = new BufferedReader(isr);
+	        //File archivo = new File("./recetas.txt");
+	        //FileReader fr = new FileReader(archivo);
+	        //Scanner s = new Scanner(archivo);
+
+	        String rece;
+	        rece = br.readLine();
+	        String [] parte;
+	        System.out.println("\n-----Recetas-----");
+	        while(rece!=null){
+	        	parte = rece.split(";");
+	        	System.out.println("--------------------------------");
+	        	System.out.println("Nombre: "+parte[0]);
+	       		System.out.println("Descripcion: "+parte[2]);
+	       		String ingre = parte[1];
+	       		parte = ingre.split("#");
+	       		for(int x=0; x<parte.length; x++){
+	       			String ingreAtribSeparados = parte[x];
+	       			String [] campos2 = ingreAtribSeparados.split("\\*");
+	       			System.out.println("Ingredientes: ");
+	       			System.out.println("Nombre: "+campos2[0]);
+	       			System.out.println("Gramos: "+campos2[1]);
+	       			System.out.println("Unidades: "+campos2[2]);
+	       			System.out.println("--------------------------------");
+	       			//System.out.println("¿En gramos?: "+campos2[3]);
+	       		}
+	       		
+	       		rece = br.readLine();
+	        }
+
+		 } catch (IOException ioe) {
+			System.out.println("Error E/S: " + ioe);
+		}
 	}
 }
